@@ -178,8 +178,6 @@ static int const PFOfflineStoreMaximumSQLVariablesCount = 999;
                                    PFOfflineStoreKeyOfJSON, PFOfflineStoreTableOfObjects, PFOfflineStoreKeyOfUUID];
                 return [database executeQueryAsync:query withArgumentsInArray:@[ uuid ] block:^id(PFSQLiteDatabaseResult *_Nonnull result) {
                     if (![result next]) {
-                        NSDictionary* userInfo = @{@"udid": uuid};
-                        [[NSNotificationCenter defaultCenter] postNotificationName:@"non-existent-uuid" object:self userInfo: userInfo];
                         PFPreconditionFailure(@"Attempted to find non-existent uuid %@. Please report this issue with stack traces and logs.", uuid);
                     }
                     return [result stringForColumnIndex:0];
@@ -914,8 +912,6 @@ static int const PFOfflineStoreMaximumSQLVariablesCount = 999;
     __block NSString *objectId = nil;
     return [[database executeQueryAsync:query withArgumentsInArray:@[ uuid ] block:^id(PFSQLiteDatabaseResult *result) {
         if (![result next]) {
-            NSDictionary * userInfo = @{@"uuid": uuid};
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"non-existent-uuid" object:self userInfo: userInfo];
             PFPreconditionFailure(@"Attempted to find non-existent uuid %@. Please report this issue with stack traces and logs.", uuid);
         }
 
