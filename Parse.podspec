@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Parse'
-  s.version          = '1.17.1'
+  s.version          = '1.17.2'
   s.license          =  { :type => 'BSD', :file => 'LICENSE' }
   s.homepage         = 'http://parseplatform.org/'
   s.summary          = 'A library that gives you access to the powerful Parse cloud platform from your iOS/OS X/watchOS/tvOS app.'
@@ -34,17 +34,7 @@ Pod::Spec.new do |s|
                           'Parse/Parse/Internal/Purchase/**/*.{h,m}',
                           'Parse/Parse/Internal/PFMemoryEventuallyQueue.{h,m}'
     s.tvos.exclude_files = 'Parse/Parse/PFNetworkActivityIndicatorManager.{h,m}',
-                           'Parse/Parse/PFPush.{h,m}',
-                           'Parse/Parse/PFPush+Synchronous.{h,m}',
-                           'Parse/Parse/PFPush+Deprecated.{h,m}',
-                           'Parse/Parse/PFInstallation.{h,m}',
-                           'Parse/Parse/Internal/PFAlertView.{h,m}',
-                           'Parse/Parse/Internal/Push/**/*.{h,m}',
-                           'Parse/Parse/Internal/Installation/Controller/*.{h,m}',
-                           'Parse/Parse/Internal/Installation/Constants/*.{h,m}',
-                           'Parse/Parse/Internal/Installation/CurrentInstallationController/*.{h,m}',
-                           'Parse/Parse/Internal/Installation/PFInstallationPrivate.h',
-                           'Parse/Parse/Internal/Commands/PFRESTPushCommand.{h,m}'
+                           'Parse/Parse/Internal/PFAlertView.{h,m}'
     s.watchos.exclude_files = 'Parse/Parse/PFNetworkActivityIndicatorManager.{h,m}',
                               'Parse/Parse/PFProduct.{h,m}',
                               'Parse/Parse/PFPurchase.{h,m}',
@@ -94,15 +84,13 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'FacebookUtils' do |s|
-    s.platform = :ios, :tvos
+    s.platform = :ios
     s.ios.deployment_target = '8.0'
-    s.tvos.deployment_target = '9.0'
     s.public_header_files = 'ParseFacebookUtils/ParseFacebookUtils/*.h'
     s.source_files = 'ParseFacebookUtils/ParseFacebookUtils/**/*.{h,m}'
-    s.exclude_files = 'ParseFacebookUtils/ParseFacebookUtils/ParseFacebookUtilsV4.h'
-    s.ios.exclude_files = 'ParseFacebookUtils/ParseFacebookUtils/Internal/AuthenticationProvider/tvOS/**/*.{h,m}'
-    s.tvos.exclude_files = 'ParseFacebookUtils/ParseFacebookUtils/Internal/AuthenticationProvider/iOS/**/*.{h,m}'
-  
+    s.exclude_files = 'ParseFacebookUtils/ParseFacebookUtils/ParseFacebookUtilsV4.h',
+                      'ParseFacebookUtils/ParseFacebookUtils/Internal/AuthenticationProvider/tvOS/**/*.{h,m}'
+
     s.frameworks        = 'AudioToolbox',
                           'CFNetwork',
                           'CoreGraphics',
@@ -116,10 +104,30 @@ Pod::Spec.new do |s|
 
     s.dependency 'Parse/Core'
     s.dependency 'Bolts', '~> 1.9'
-    s.dependency 'FBSDKCoreKit', '~> 4.29'
-    s.ios.dependency 'FBSDKLoginKit', '~> 4.29'
-    s.tvos.dependency 'FBSDKTVOSKit', '~> 4.29'
-    s.tvos.dependency 'FBSDKShareKit', '4.28'
+    s.dependency 'FBSDKLoginKit', '~> 4.33'
+  end
+
+  s.subspec 'FacebookUtils-tvOS' do |s|
+    s.platform = :tvos
+    s.tvos.deployment_target = '9.0'
+    s.public_header_files = 'ParseFacebookUtils/ParseFacebookUtils/*.h'
+    s.source_files = 'ParseFacebookUtils/ParseFacebookUtils/**/*.{h,m}'
+    s.exclude_files = 'ParseFacebookUtils/ParseFacebookUtils/ParseFacebookUtilsV4.h',
+                      'ParseFacebookUtils/ParseFacebookUtils/Internal/AuthenticationProvider/iOS/**/*.{h,m}'
+
+    s.frameworks        = 'AudioToolbox',
+                          'CFNetwork',
+                          'CoreGraphics',
+                          'CoreLocation',
+                          'QuartzCore',
+                          'Security',
+                          'SystemConfiguration'
+    s.libraries        = 'z', 'sqlite3'
+
+    s.dependency 'Parse/Core'
+    s.dependency 'Bolts', '~> 1.9'
+    s.dependency 'FBSDKTVOSKit', '~> 4.33'
+    s.dependency 'FBSDKShareKit', '~> 4.33'
   end
 
   s.subspec 'TwitterUtils' do |s|
